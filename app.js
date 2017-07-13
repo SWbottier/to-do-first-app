@@ -8,7 +8,7 @@ function errorResponse(res){
   res.end("404 not found!")
 }
 var server = http.createServer(function (req,res){
-  if(req.url == "/" && req.method == 'GET'){
+  if(req.url === "/" && req.method === 'GET'){
     // print logged to-dos onto homepage display
     fs.readFile('savedItems.txt','utf8',function(err, data) {
       if (err) throw err;
@@ -17,7 +17,7 @@ var server = http.createServer(function (req,res){
 })
 
 
-    } else if (req.url == "/add-todo" && req.method == 'POST') {
+    } else if (req.url === "/add-todo" && req.method === 'POST') {
       var body = '';
       req.on('data', function(chunk){
       body += chunk
@@ -32,7 +32,15 @@ var server = http.createServer(function (req,res){
       res.end();
       })
     });
-  } else {
+  } else if (req.url === "/toDoFrontEnd.js" && req.method ==='GET'){
+    fs.readFile('toDoFrontEnd.js', function(err,data){
+      if (err) throw err;
+      res.writeHead(200);
+      res.end(data);
+    })
+  }
+
+  else {
     errorResponse(res);
   }
 })

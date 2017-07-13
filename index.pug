@@ -2,6 +2,9 @@ doctype html
 html
  head
    title First Webapp
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+   script(src='toDoFrontEnd.js')
+
 body
   h1 To Do List
   h3 Don't forget to
@@ -9,6 +12,8 @@ body
     -
     each item in list
       li= item
+      button(type="button" class="remove") Remove
+      button(type="button") Edit
   form(class="add-to-do" action="add-todo" method="post")
     input(type="text" placeholder="type here" name="toDo")
     button(type="submit") Add
