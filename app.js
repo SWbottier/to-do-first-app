@@ -2,48 +2,33 @@ var http = require('http');
 var fs = require('fs');
 var qs = require('querystring');
 const pug = require('pug');
+const express = require('express');
+const bodyParser = require ('body-parser');
+var app = express();
+app.set('view engine','pug');
+app.use(bodyParser.urlencoded({extended: true}));
 
-function errorResponse(res){
-  res.statusCode = 404;
-  res.end("404 not found!")
-}
-var server = http.createServer(function (req,res){
-  if(req.url === "/" && req.method === 'GET'){
-    // print logged to-dos onto homepage display
-    fs.readFile('savedItems.txt','utf8',function(err, data) {
+app.get('/', function (req, res) {
+  fs.readFile('savedItems.txt','utf8',function(err, data) {
       if (err) throw err;
-      console.log()
-      res.end(pug.renderFile('index.pug',{list: data.split("\n")}))
+      res.render('index',{list: data.split("\n")})
+  })
+})
+
+app.post('/add-todo', function (req, res) {
+  var toDoItem = req.body.toDo;
+  fs.appendFile("savedItems.txt",toDoItem+"\n", function (err){
+    if(err){console.error("Something went wrong", err);}
+  console.log("appended to file");
+  res.redirect(301, '/');
+})
+
+})
+app.use(function (req, res, next) {
+  res.status(404).send("Sorry can't find that!")
 })
 
 
-    } else if (req.url === "/add-todo" && req.method === 'POST') {
-      var body = '';
-      req.on('data', function(chunk){
-      body += chunk
-    }).on('end', function(){
-      var toDoItem = qs.parse(body).toDo;
-      // save or write to a text file
-      fs.appendFile("savedItems.txt",toDoItem+"\n", function (err){
-        if(err){console.error("Something went wrong", err);}
-      console.log("appended to file");
-      //redirect back to homepage, needs status code 301 to redirect.
-      res.writeHead(301, {Location: "/"});
-      res.end();
-      })
-    });
-  } else if (req.url === "/toDoFrontEnd.js" && req.method ==='GET'){
-    fs.readFile('toDoFrontEnd.js', function(err,data){
-      if (err) throw err;
-      res.writeHead(200);
-      res.end(data);
-    })
-  }
-
-  else {
-    errorResponse(res);
-  }
-})
-
-server.listen(1337,"localhost")
+app.listen(3000);
+console.log("listening to 3000");
 console.log("listening to 1337");
