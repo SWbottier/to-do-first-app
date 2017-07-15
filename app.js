@@ -10,27 +10,29 @@ var app = express();
 const url = 'mongodb://localhost:27017/ToDo';
 
 //////// WORK IN PROGRESS (WIP) TO USE MONGO DB
-const insertTask = function(db, callback) {
-  var collection = db.collection('tasks');
+const insertTask = function(db, callback, item) {
 
-  collection.insertOne(
-    {name: "Wash the car!"},
+collection.insertOne(
+    {name: item}, // need to make ToDoItem name dynamic
     function(err, result) {
       if(err) { console.error("Insert One broke! ", err)}
-      console.log('the result =============')
-      console.log(result)
-      callback(result);
+  callback();
     });
 }
 
-MongoClient.connect(url, function (err, db) {
+var db;
+
+MongoClient.connect(url, function (err, database) {
   if (err) throw err
   console.log('connect to DB successful');
-
-  insertTask(db, function(){
-    db.close();
-  });
-});
+  db = database;
+    app.listen(3000, () => {
+    console.log('listening on 3000')  })
+        //
+        // insertTask(db, function(){
+        // db.close();
+        //   }, "something");
+        });
 //// END WIP FOR MONGO DB
 app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -42,19 +44,22 @@ app.get('/', function (req, res) {
   })
 })
 
-app.post('/add-todo', function (req, res) {
-  var toDoItem = req.body.toDo;
-  fs.appendFile("savedItems.txt",toDoItem+"\n", function (err){
-    if(err){console.error("Something went wrong", err);}
-  console.log("appended to file");
-  res.redirect(301, '/');
+// maybe: Connect to MongoDB ****************************************
+  app.post('/add-todo', function (req, res) {
+      var toDoItem = req.body.toDo;
+        db.collection('tasks').save({name:toDoItem}, function(err,result){
+            if (err) return console.log(err);
+
+              console.log('saved to database')
+                res.redirect('/')
+                })
+
+// maybe: Connect to MongoDB ****************************************
+
+// insertTask(someDB, callbackFn, toDoItem)
+//   res.redirect(301, '/');
 })
 
-})
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!")
 })
-
-
-app.listen(3000);
-console.log("listening to 3000");
