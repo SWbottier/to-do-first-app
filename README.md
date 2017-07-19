@@ -3,7 +3,7 @@
 this is a simple practice to implement a full-stack web application with Node.js, MongoDB, Express.js, pug, etc...
 
 first setup by running
-` npm install `
+` npm install `   : activates(install)all dependencies file.
 
 then to run the app
 start the mongoDB server by running
@@ -15,5 +15,3 @@ then start the app server by running
 `
 node app.js
 `
-
-
