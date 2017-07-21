@@ -2,7 +2,8 @@ doctype html
 html
  head
    title First Webapp
-
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+   script(src='/js/frontEndCode.js')
 
 body
   h1 To Do List
@@ -10,10 +11,14 @@ body
   .to-do-display
     -
     each item in listOfToDoItems
-      li= item.name
+      .edit-form(id="edit-form-" + item._id style='display: none')
+        form(action="edit-todo/" + item._id method="post")
+          input(type='text' name='editToDo' value=item.name)
+          button(type="submit") Confirm
+      li(id=item._id)= item.name
       form(action="delete-todo/" + item._id method="post")
         button(type="submit") Remove
-        button(type="button") Edit
+        button(type="button" class="editBtn" data-id=item._id) Edit
   form(class="add-to-do" action="add-todo" method="post")
     input(type="text" placeholder="type here" name="toDo")
     button(type="submit") Add

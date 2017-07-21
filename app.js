@@ -7,6 +7,8 @@ const bodyParser = require ('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
+
+
 var app = express();
 const url = 'mongodb://localhost:27017/ToDo';
 
@@ -51,6 +53,21 @@ app.post('/delete-todo/:idToDelete', function(req,res){
     res.redirect('/');
   })
 })
+// Edit Button
+app.use(express.static('public'))
+
+app.post('/edit-todo/:idToEdit',function (req,res){
+  db.collection('tasks').updateOne({
+    _id: ObjectID(req.params.idToEdit)},{$set:{name:req.body.editToDo}},
+   function(err,r){
+     if (err) console.log(err);
+     console.log("Updated!")
+     res.redirect('/')
+   })
+})
+
+
+// app.use(express.static(to-do-first-app + '/frontEndCode'));
 
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!")
