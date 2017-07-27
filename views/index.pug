@@ -2,23 +2,27 @@ doctype html
 html
  head
    title First Webapp
+   link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous")
+   <link rel="stylesheet" type="text/css" href="css/style.css" />
    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
    script(src='/js/frontEndCode.js')
 
 body
-  h1 To Do List
-  h3 Don't forget to
-  .to-do-display
-    -
-    each item in listOfToDoItems
-      .edit-form(id="edit-form-" + item._id style='display: none')
-        form(action="edit-todo/" + item._id method="post")
-          input(type='text' name='editToDo' value=item.name)
-          button(type="submit") Confirm
-      li(id=item._id)= item.name
-      form(action="delete-todo/" + item._id method="post")
-        button(type="submit") Remove
-        button(type="button" class="editBtn" data-id=item._id) Edit
-  form(class="add-to-do" action="add-todo" method="post")
-    input(type="text" placeholder="type here" name="toDo")
-    button(type="submit") Add
+  div
+    .container-fluid
+      h1 To Do List
+      h3 Don't forget to
+      .to-do-display
+        -
+        each item in listOfToDoItems
+          .edit-form(id="edit-form-" + item._id style='display: none')
+            form(action="edit-todo/" + item._id method="post")
+              input(type='text' name='editToDo' value=item.name id="confirmBox")
+              button(type="submit" id="confirm") Confirm
+          li(id=item._id)= item.name
+          form(action="delete-todo/" + item._id method="post" id=item._id)
+            button(type="submit" id='remove' class="remove" data-id=item._id) Remove
+            button(type="button" class="editBtn" data-id=item._id id='edit') Edit
+      form(class="add-to-do" action="add-todo" method="post" id="add-to-do")
+        input(type="text" placeholder="type here" name="toDo" id="addBox")
+        button(type="button" id="addBtn") Add

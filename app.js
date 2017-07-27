@@ -7,8 +7,6 @@ const bodyParser = require ('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-
-
 var app = express();
 const url = 'mongodb://localhost:27017/ToDo';
 
@@ -34,28 +32,37 @@ app.get('/', function (req, res) {
   })
 })
 
+//Add ToDo
 app.post('/add-todo', function (req, res) {
   var toDoItem = req.body.toDo;
   db.collection('tasks').save({name:toDoItem}, function(err,result){
     if (err) return console.log(err);
     console.log('saved to database')
-    res.redirect('/')
+    //ajax code
+    const addToSend = JSON.stringify(result.ops[0]);
+    // console.log(result.ops[0].toString());
+    // console.log(addToSend);
+    res.send(addToSend);
+
   })
 })
 
 // localhost:3000/delete-todo/123
 app.post('/delete-todo/:idToDelete', function(req,res){
-  db.collection('tasks').deleteOne({
+  db.collection('tasks').deleteOne(
+    {
     _id: ObjectID(req.params.idToDelete)
-  }, function(err, data){
+    }, function(err, data){
     if(err) return console.log(err);
     console.log('deleted')
-    res.redirect('/');
+    console.log('deleted')
+    //ajax code
+    res.send(ObjectID(req.params.idToDelete))
   })
 })
-// Edit Button
-app.use(express.static('public'))
 
+app.use(express.static('public'))
+// Edit Button
 app.post('/edit-todo/:idToEdit',function (req,res){
   db.collection('tasks').updateOne({
     _id: ObjectID(req.params.idToEdit)},{$set:{name:req.body.editToDo}},
@@ -65,9 +72,6 @@ app.post('/edit-todo/:idToEdit',function (req,res){
      res.redirect('/')
    })
 })
-
-
-// app.use(express.static(to-do-first-app + '/frontEndCode'));
 
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!")

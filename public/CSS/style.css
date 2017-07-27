@@ -1,0 +1,64 @@
+body {
+  text-align: center;
+    font: 75% georgia, sans-serif;
+    background-color: lightblue;
+    background: url(http://www.nmgncp.com/data/out/112/4519663-elementary-os-wallpapers-pack.png) no-repeat center fixed;
+    background-size:cover;
+    margin-top: 80px;
+    height:950px;
+    }
+h1 {
+  color: rgb(227, 236, 252);
+}
+
+h3 {
+color: rgb(227, 236, 252);
+}
+
+.to-do-display{
+  margin-top: 20px;
+  font-size: 16px;
+}
+#remove{
+  margin-top: 30px;
+}
+
+#item._id{
+  color: rgb(227, 236, 252);
+}
+.container-fluid{
+  color: rgb(227, 236, 252);
+}
+#confirm{
+  background-color: transparent;
+  font-size: 12px;
+}
+#confirmBox{
+  background-color: transparent;
+  width: 50%;
+}
+#addBox{
+  background-color: transparent;
+  width: 30%;
+  overflow: visible;
+}
+#remove{
+  background-color: transparent;
+  margin-top: 3px;
+  font-size: 12px;
+
+}
+#edit{
+  background-color: transparent;
+  margin-left: 3px;
+  font-size: 12px;
+}
+.add-to-do
+{
+  margin-top: 20px;
+  font-size: 200%;
+}
+#addBtn{
+  background-color: transparent;
+  margin-left: 3px;
+}
