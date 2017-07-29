@@ -55,7 +55,6 @@ app.post('/delete-todo/:idToDelete', function(req,res){
     }, function(err, data){
     if(err) return console.log(err);
     console.log('deleted')
-    console.log('deleted')
     //ajax code
     res.send(ObjectID(req.params.idToDelete))
   })

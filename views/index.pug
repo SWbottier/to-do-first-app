@@ -20,9 +20,9 @@ body
               input(type='text' name='editToDo' value=item.name id="confirmBox")
               button(type="submit" id="confirm") Confirm
           li(id=item._id)= item.name
-          form(action="delete-todo/" + item._id method="post" id=item._id)
-            button(type="submit" id='remove' class="remove" data-id=item._id) Remove
-            button(type="button" class="editBtn" data-id=item._id id='edit') Edit
+          form(action="delete-todo/" + item._id method="post" id=item._id class=item._id)
+            button(type="button" id='remove' class="remove " +item._id data-id=item._id) Remove
+            button(type="button" class="editBtn "+item._id data-id=item._id id='edit') Edit
       form(class="add-to-do" action="add-todo" method="post" id="add-to-do")
         input(type="text" placeholder="type here" name="toDo" id="addBox")
         button(type="button" id="addBtn") Add
