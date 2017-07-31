@@ -1,0 +1,9 @@
+div(class="to-do-" + item._id)
+  .edit-form(id="edit-form-" + item._id style='display: none')
+    form(action="edit-todo/" + item._id method="post")
+      input(type='text' name='editToDo' value=item.name id="confirmBox")
+      button(type="submit" id="confirm") Confirm
+  li(id=item._id)= item.name
+  form(action="delete-todo/" + item._id method="post" id=item._id class=item._id)
+    button(type="button" id='remove' class="remove " +item._id data-id=item._id) Remove
+    button(type="button" class="editBtn "+item._id data-id=item._id id='edit') Edit

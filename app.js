@@ -39,10 +39,12 @@ app.post('/add-todo', function (req, res) {
     if (err) return console.log(err);
     console.log('saved to database')
     //ajax code
-    const addToSend = JSON.stringify(result.ops[0]);
+    const toDoObj = result.ops[0];
     // console.log(result.ops[0].toString());
     // console.log(addToSend);
-    res.send(addToSend);
+    const appended_items = pug.renderFile('views/item.pug', {item: toDoObj})
+
+    res.send(appended_items);
 
   })
 })
